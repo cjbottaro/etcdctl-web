@@ -1,0 +1,15 @@
+= form_for(@node) do |f|
+  - if @node.errors.present?
+    - @node.errors[:base].each do |error|
+      = error
+  .form-group
+    = f.label(:key)
+    = f.text_field(:key, class: "form-control", autofocus: true)
+  .form-group
+    = f.label(:dir)
+    = f.check_box(:dir)
+  .form-group
+    = f.label(:value)
+    = f.text_area(:value, class: "form-control", rows: 3)
+  .form-actions
+    = f.submit class: "btn btn-primary"

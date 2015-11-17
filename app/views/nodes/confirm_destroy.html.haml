@@ -1,0 +1,22 @@
+- if @node.errors.present?
+  - @node.errors[:base].each do |error|
+    = error
+    
+%table.table
+  %thead
+    %tr
+      %th Key
+      %th Type
+      %th Value
+  %tbody
+  - @node.flatten.each_with_index do |node, i|
+    %tr
+      - if i == 0
+        %td= node.key
+      - else
+        %td= link_to node.key, key_path(node.key)
+      %td= (node.dir && "d") || ""
+      %td= node.value
+
+= form_for(@node, method: :delete) do
+  = submit_tag "Confirm destroy", class: "btn btn-primary"

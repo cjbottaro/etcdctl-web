@@ -1,0 +1,19 @@
+!!!
+
+%html
+  %head
+    %title Etcdctl
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+
+    %nav.navbar.navbar-inverse.navbar-static-top
+      .container
+        .navbar-header
+          = link_to("Etcdctl", "/keys", class: "navbar-brand")
+        .collapse.navbar-collapse
+          %ul.nav.navbar-nav
+
+    .container
+      = yield

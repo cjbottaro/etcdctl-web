@@ -1,0 +1,44 @@
+- if @node.key != "/"
+  .breadcrumb
+    = render_breadcrumb(@node)
+    - if @node.dir?
+      %p.pull-right
+        %span.btn-group
+          - if session[:recursive_dirs]
+            = link_to "R", "/recursive_dirs_on", class: "btn btn-primary btn-xs"
+            = link_to "N", "/recursive_dirs_off", class: "btn btn-default btn-xs"
+          - else
+            = link_to "R", "/recursive_dirs_on", class: "btn btn-default btn-xs"
+            = link_to "N", "/recursive_dirs_off", class: "btn btn-primary btn-xs"
+        = link_to "New", new_node_path(parent: @node.key), class: "btn btn-primary btn-xs"
+        = link_to "Delete", confirm_destroy_node_path(id: @node.key), class: "btn btn-danger btn-xs"
+    - else
+      %p.pull-right
+        =link_to "Edit", edit_node_path(id: @node.key), class: "btn btn-primary btn-xs"
+        =link_to "Delete", node_path(id: @node.key), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-xs"
+
+- if @node.dir?
+  %table.table
+    %thead
+      %tr
+        %th Key
+        %th Type
+        %th Value
+    %tbody
+    - @node.flatten.each_with_index do |node, i|
+      - next if i == 0
+      %tr
+        %td= link_to node.key, key_path(node.key)
+        %td= (node.dir && "d") || ""
+        %td= node.value
+        %td
+          %ul.piped
+            %li=link_to "New", new_node_path(parent: node.key)
+            - if node.dir?
+              %li= link_to "Delete", confirm_destroy_node_path(id: node.key)
+            - else
+              %li= link_to "Edit", edit_node_path(id: node.key)
+              %li= link_to "Delete", node_path(id: node.key), method: :delete, data: { confirm: "Are you sure?" }
+
+- else
+  = text_area_tag(nil, @node.value, rows: 5, readonly: true, class: "form-control")

@@ -1,0 +1,9 @@
+= form_for(@node) do |f|
+  - if @node.errors.present?
+    - @node.errors[:base].each do |error|
+      = error
+  .form-group
+    = f.label(:value)
+    = f.text_area(:value, class: "form-control", rows: 3, autofocus: true)
+  .form-actions
+    = f.submit "Update", class: "btn btn-primary"

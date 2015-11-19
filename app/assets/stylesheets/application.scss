@@ -14,3 +14,7 @@ ul.piped {
   li:before { content: "| "; }
   li:first-child:before { content: ""; }
 }
+
+.italic {
+  font-style: italic;
+}

@@ -1,36 +1,37 @@
-- if @node.key != "/"
-  .breadcrumb
-    = render_breadcrumb(@node)
-    - if @node.dir?
-      %p.pull-right
-        %span.btn-group
-          - if session[:recursive_dirs]
-            = link_to "R", "/recursive_dirs_on", class: "btn btn-primary btn-xs"
-            = link_to "N", "/recursive_dirs_off", class: "btn btn-default btn-xs"
-          - else
-            = link_to "R", "/recursive_dirs_on", class: "btn btn-default btn-xs"
-            = link_to "N", "/recursive_dirs_off", class: "btn btn-primary btn-xs"
-        = link_to "New", new_node_path(parent: @node.key), class: "btn btn-primary btn-xs"
-        = link_to "Delete", confirm_destroy_node_path(id: @node.key), class: "btn btn-danger btn-xs"
-    - else
-      %p.pull-right
-        =link_to "Edit", edit_node_path(id: @node.key), class: "btn btn-primary btn-xs"
-        =link_to "Delete", node_path(id: @node.key), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-xs"
+.breadcrumb
+  = render_breadcrumb(@node)
+  - if @node.dir?
+    %p.pull-right
+      %span.btn-group
+        - if session[:recursive_dirs]
+          = link_to "R", "/recursive_dirs_on", class: "btn btn-primary btn-xs"
+          = link_to "N", "/recursive_dirs_off", class: "btn btn-default btn-xs"
+        - else
+          = link_to "R", "/recursive_dirs_on", class: "btn btn-default btn-xs"
+          = link_to "N", "/recursive_dirs_off", class: "btn btn-primary btn-xs"
+      = link_to "New", new_node_path(parent: @node.key), class: "btn btn-primary btn-xs"
+      = link_to "Delete", confirm_destroy_node_path(id: @node.key), class: "btn btn-danger btn-xs"
+  - else
+    %p.pull-right
+      =link_to "Edit", edit_node_path(id: @node.key), class: "btn btn-primary btn-xs"
+      =link_to "Delete", node_path(id: @node.key), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-xs"
 
 - if @node.dir?
   %table.table
     %thead
       %tr
         %th Key
-        %th Type
         %th Value
     %tbody
     - @node.flatten.each_with_index do |node, i|
       - next if i == 0
       %tr
-        %td= link_to node.key, key_path(node.key)
-        %td= (node.dir && "d") || ""
-        %td= node.value
+        %td= link_to relative_key(@node, node), key_path(node.key)
+        %td
+          -if node.dir?
+            %span.italic= "<directory>"
+          -else
+            = node.value
         %td
           %ul.piped
             %li=link_to "New", new_node_path(parent: node.key)

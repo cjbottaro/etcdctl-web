@@ -15,4 +15,8 @@ module ApplicationHelper
     ("/ " + links.join(" / ")).html_safe
   end
 
+  def relative_key(base, node)
+    node.key.sub(/^#{base.key}\/?/, "")
+  end
+
 end

@@ -9,5 +9,7 @@ USER rails
 WORKDIR /etcdctl-web
 ENV BUNDLE_APP_CONFIG /etcdctl-web/.bundle
 RUN bundle install --deployment --path vendor/bundle --jobs 4 --without development test
+
+EXPOSE 3000
 ENTRYPOINT ["bundle", "exec"]
 CMD ["rails", "s"]

@@ -34,8 +34,8 @@
             = node.value
         %td
           %ul.piped
-            %li=link_to "New", new_node_path(parent: node.key)
             - if node.dir?
+              %li= link_to "New", new_node_path(parent: node.key)
               %li= link_to "Delete", confirm_destroy_node_path(id: node.key)
             - else
               %li= link_to "Edit", edit_node_path(id: node.key)

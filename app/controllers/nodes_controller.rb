@@ -2,12 +2,13 @@ class NodesController < ApplicationController
   respond_to :html
 
   def new
-    @node = Node.new(key: params[:parent] + "/")
+    @node = Node.new(key: "")
   end
 
   def create
     @node = Node.new(params[:node])
     @node.dir = params[:node][:dir] == "1"
+    @node.key = params[:parent] + "/" + @node.key
     @node.save
     respond_with(@node, location: key_path(@node.parent_key))
   end
@@ -24,7 +25,7 @@ class NodesController < ApplicationController
   end
 
   def confirm_destroy
-    @node = Node.find(params[:id])
+    @node = Node.find(params[:id], recursive: true)
   end
 
   def destroy

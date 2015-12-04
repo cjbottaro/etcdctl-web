@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
 
-  resources :nodes do
+  resources :nodes, constraints: { id: /[0-9A-Za-z%_\-\/\-\.]+/ } do
     member do
       get :confirm_destroy
     end
   end
 
   match "keys", to: "keys#index", via: :get
-  match "keys/*key", to: "keys#index", via: :get
+  match "keys/*key", to: "keys#index", via: :get, format: false
 
   get "recursive_dirs_on" => "application#recursive_dirs_on"
   get "recursive_dirs_off" => "application#recursive_dirs_off"

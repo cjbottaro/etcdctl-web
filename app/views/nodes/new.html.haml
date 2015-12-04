@@ -1,7 +1,12 @@
+.breadcrumb
+  = render_breadcrumb(params[:parent])
+
+- if @node.errors.present?
+  - @node.errors[:base].each do |error|
+    = error
+
 = form_for(@node) do |f|
-  - if @node.errors.present?
-    - @node.errors[:base].each do |error|
-      = error
+  = hidden_field_tag :parent, params[:parent]
   .form-group
     = f.label(:key)
     = f.text_field(:key, class: "form-control", autofocus: true)

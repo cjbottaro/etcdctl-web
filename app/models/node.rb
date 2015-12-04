@@ -1,7 +1,12 @@
 class Node
   include ActiveModel::Model
 
+  extend ActiveModel::Callbacks
+  define_model_callbacks :save
+
   attr_accessor :key, :dir, :value, :nodes
+
+  before_save :normalize_key
 
   def self.find(key, options = {})
     options = options.reverse_merge recursive: false
@@ -63,6 +68,10 @@ class Node
     nodes.sort_by(&:key)
   end
 
+  def normalize_key
+    self.key = key.gsub(/\/+/, "/")
+  end
+
   def parent_key
     if key == "/"
       key
@@ -72,17 +81,19 @@ class Node
   end
 
   def save
-    if dir?
-      data = { dir: true }
-    else
-      data = { value: value }
-    end
+    run_callbacks :save do
+      if dir?
+        data = { dir: true }
+      else
+        data = { value: value }
+      end
 
-    begin
-      key = Rack::Utils.escape_path(self.key)
-      RestClient.put("http://#{Etcdctl.host}/v2/keys#{key}", data)
-    rescue RestClient::Exception => e
-      errors.add(:base, e.response)
+      begin
+        key = Rack::Utils.escape_path(self.key)
+        RestClient.put("http://#{Etcdctl.host}/v2/keys#{key}", data)
+      rescue RestClient::Exception => e
+        errors.add(:base, e.response)
+      end
     end
   end
 

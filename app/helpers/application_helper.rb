@@ -1,14 +1,20 @@
 module ApplicationHelper
 
   def render_breadcrumb(node)
+    if node.kind_of?(Node)
+      key_string = node.key || ""
+    else
+      key_string = node || ""
+    end
+
     links = []
-    parts = node.key.split("/")
-    node.key.split("/").each_with_index do |part, i|
+    parts = key_string.split("/")
+    parts.each_with_index do |part, i|
       next if part == ""
       if i == parts.length - 1
         links << part
       else
-        key = node.key.split(part).first + "/#{part}"
+        key = key_string.split(part).first + "/#{part}"
         links << link_to(part, key_path(key))
       end
     end

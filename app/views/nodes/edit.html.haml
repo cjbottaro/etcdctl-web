@@ -1,3 +1,6 @@
+.breadcrumb
+  = render_breadcrumb @node
+
 = form_for(@node) do |f|
   - if @node.errors.present?
     - @node.errors[:base].each do |error|

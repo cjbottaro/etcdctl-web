@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get "recursive_dirs_on" => "application#recursive_dirs_on"
   get "recursive_dirs_off" => "application#recursive_dirs_off"
 
+  root :to => redirect('/keys')
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

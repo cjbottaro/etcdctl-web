@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+routes_impl = Proc.new do
 
   resources :nodes, constraints: { id: /[0-9A-Za-z%_\-\/\-\.]+/ } do
     member do
@@ -12,7 +12,19 @@ Rails.application.routes.draw do
   get "recursive_dirs_on" => "application#recursive_dirs_on"
   get "recursive_dirs_off" => "application#recursive_dirs_off"
 
-  root :to => redirect('/keys')
+  root :to => redirect(controller: "keys", action: "index")
+
+end
+
+Rails.application.routes.draw do
+
+  if ENV["ETCDCTL_WEB_PREFIX"]
+    scope ENV["ETCDCTL_WEB_PREFIX"] do
+      instance_eval(&routes_impl)
+    end
+  else
+    instance_eval(&routes_impl)
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

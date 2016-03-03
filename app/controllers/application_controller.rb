@@ -5,8 +5,11 @@ class ApplicationController < ActionController::Base
 
   def key_path(key)
     key = key.sub(/^\/+/, "")
-    path = "/keys/#{key}"
+    
+    path = ENV["ETCDCTL_WEB_PREFIX"].to_s
+    path += "/keys/#{key}"
     path += "?#{request.query_string}" if request.query_string.present?
+    path = "/" + path unless path.starts_with?("/")
     path
   end
 

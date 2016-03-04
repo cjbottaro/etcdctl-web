@@ -31,5 +31,6 @@ module EtcdctlWeb
       config.etcdctl_web_prefix = nil
     end
 
+    config.assets.prefix = "#{config.etcdctl_web_prefix}/assets"
   end
 end

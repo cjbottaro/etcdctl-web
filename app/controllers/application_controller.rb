@@ -3,9 +3,13 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  def root_redirect
+    redirect_to keys_path
+  end
+
   def key_path(key)
     key = key.sub(/^\/+/, "")
-    
+
     path = ENV["ETCDCTL_WEB_PREFIX"].to_s
     path += "/keys/#{key}"
     path += "?#{request.query_string}" if request.query_string.present?

@@ -4,11 +4,11 @@
     %p.pull-right
       %span.btn-group
         - if session[:recursive_dirs]
-          = link_to "R", "/recursive_dirs_on", class: "btn btn-primary btn-xs"
-          = link_to "N", "/recursive_dirs_off", class: "btn btn-default btn-xs"
+          = link_to "R", recursive_dirs_on_path, class: "btn btn-primary btn-xs"
+          = link_to "N", recursive_dirs_off_path, class: "btn btn-default btn-xs"
         - else
-          = link_to "R", "/recursive_dirs_on", class: "btn btn-default btn-xs"
-          = link_to "N", "/recursive_dirs_off", class: "btn btn-primary btn-xs"
+          = link_to "R", recursive_dirs_on_path, class: "btn btn-default btn-xs"
+          = link_to "N", recursive_dirs_off_path, class: "btn btn-primary btn-xs"
       = link_to "New", new_node_path(parent: @node.key), class: "btn btn-primary btn-xs"
       = link_to "Delete", confirm_destroy_node_path(id: @node.key), class: "btn btn-danger btn-xs"
   - else

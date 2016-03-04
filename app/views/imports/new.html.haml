@@ -1,0 +1,9 @@
+= form_tag import_path, multipart: true do
+  .form-group
+    = label_tag "YAML File"
+    = file_field_tag :file
+  .form-group
+    = label_tag "Root Path"
+    = text_field_tag :root, "", class: "form-control"
+  .form-actions
+    = submit_tag "Import", class: "btn btn-primary"

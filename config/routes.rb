@@ -1,29 +1,23 @@
-routes_impl = Proc.new do
-
-  resources :nodes, constraints: { id: /[0-9A-Za-z%_\-\/\-\.]+/ } do
-    member do
-      get :confirm_destroy
-    end
-  end
-
-  match "keys", to: "keys#index", via: :get
-  match "keys/*key", to: "keys#index", via: :get, format: false
-
-  get "recursive_dirs_on" => "application#recursive_dirs_on"
-  get "recursive_dirs_off" => "application#recursive_dirs_off"
-
-  root :to => redirect(controller: "keys", action: "index")
-
-end
+prefix = Rails.configuration.etcdctl_web_prefix
 
 Rails.application.routes.draw do
 
-  if ENV["ETCDCTL_WEB_PREFIX"]
-    scope ENV["ETCDCTL_WEB_PREFIX"] do
-      instance_eval(&routes_impl)
+  scope(prefix) do
+    resource :import
+
+    resources :nodes, constraints: { id: /[0-9A-Za-z%_\-\/\-\.]+/ } do
+      member do
+        get :confirm_destroy
+      end
     end
-  else
-    instance_eval(&routes_impl)
+
+    match "keys", to: "keys#index", via: :get
+    match "keys/*key", to: "keys#index", via: :get, format: false
+
+    get "recursive_dirs_on" => "application#recursive_dirs_on"
+    get "recursive_dirs_off" => "application#recursive_dirs_off"
+
+    root :to => redirect("#{prefix}/keys")
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

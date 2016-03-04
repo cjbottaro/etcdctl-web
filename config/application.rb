@@ -22,5 +22,14 @@ module EtcdctlWeb
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    if ENV["ETCDCTL_WEB_PREFIX"].present?
+      prefix = ENV["ETCDCTL_WEB_PREFIX"]
+      prefix = "/" + prefix unless prefix.starts_with?("/")
+      config.etcdctl_web_prefix = prefix
+    else
+      config.etcdctl_web_prefix = nil
+    end
+
   end
 end

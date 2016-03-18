@@ -11,6 +11,7 @@
           = link_to "N", recursive_dirs_off_path, class: "btn btn-primary btn-xs"
       = link_to "New", new_node_path(parent: @node.key), class: "btn btn-primary btn-xs"
       = link_to "Delete", confirm_destroy_node_path(id: @node.key), class: "btn btn-danger btn-xs"
+      = link_to "Export", {action: :index, format: :yaml}, {class: "btn btn-primary btn-xs"}
   - else
     %p.pull-right
       =link_to "Edit", edit_node_path(id: @node.key), class: "btn btn-primary btn-xs"

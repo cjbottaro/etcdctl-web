@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
 
     match "keys", to: "keys#index", via: :get
-    match "keys/*key", to: "keys#index", via: :get, format: false
+    match "keys/*key", to: "keys#index", via: :get
 
     get "recursive_dirs_on" => "application#recursive_dirs_on"
     get "recursive_dirs_off" => "application#recursive_dirs_off"

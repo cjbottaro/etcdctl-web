@@ -1,16 +1,34 @@
 class KeysController < ApplicationController
 
   def index
-    @node = Node.find(params[:key], recursive: !!session[:recursive_dirs])
     respond_to do |format|
-      format.html
-      format.yaml {
-        send_data(Node.data_for_export(params["key"]).to_yaml, type: "text/yaml",
-            disposition: 'attachment', filename: "keys_#{Time.now.to_i}.yaml")
-      }
-      format.json {
-        send_data(Node.data_for_export(params["key"]).to_json, type: "text/json", disposition: 'inline')
-      }
+
+      format.html do
+        @node = Node.find(params[:key], recursive: !!session[:recursive_dirs])
+      end
+
+      format.yaml do
+        yaml = Etcd::Utils.load(root: key, cast_values: true).to_yaml
+        send_data(yaml, type: "text/yaml", disposition: 'attachment', filename: "keys_#{Time.now.to_i}.yaml")
+      end
+
+      format.json do
+        json = JSON.pretty_generate(Etcd::Utils.load(root: key, cast_values: true))
+        send_data(json, type: "text/json", disposition: 'attachment', filename: "keys_#{Time.now.to_i}.json")
+      end
+
+    end
+  end
+
+private
+
+  def key
+    @key ||= begin
+      if params[:key].starts_with?("/")
+        param[:key]
+      else
+        "/" + params[:key]
+      end
     end
   end
 

@@ -38,6 +38,7 @@ gem "haml-rails"
 gem "rest-client"
 gem "responders", '~> 2.0'
 gem "jquery-turbolinks"
+gem "etcd-utils", github: "cjbottaro/etcd-utils"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

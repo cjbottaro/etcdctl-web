@@ -41,35 +41,6 @@ class Node
     node
   end
 
-  def self.data_for_export(key)
-    response = response(key, {recursive: true})
-    format_data_for_export(response)
-  end
-
-  def self.format_data_for_export(data, formatted_data = {})
-    child_data = {}
-
-    key   = if data.has_key?("key")
-        data["key"].strip.split("/").last
-      else
-        nil
-      end
-    value = if data.has_key?("nodes")
-        data["nodes"].each {|node| format_data_for_export(node, child_data)}
-        child_data
-      else
-        data["value"]
-      end
-
-    if key
-      formatted_data[key] = value
-    else
-      formatted_data = value
-    end
-
-    formatted_data
-  end
-
   def id
     key
   end

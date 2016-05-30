@@ -24,7 +24,9 @@ private
 
   def key
     @key ||= begin
-      if params[:key].starts_with?("/")
+      if params[:key].blank?
+        "/"
+      elsif params[:key].starts_with?("/")
         param[:key]
       else
         "/" + params[:key]

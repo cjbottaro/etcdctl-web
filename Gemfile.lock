@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/cjbottaro/etcd-utils.git
-  revision: 7dd651af36149e9abdb5f7bf8945d6e0cbb10b2f
+  revision: 12153a879394be49deec8c4f304d6b2fa75d5df6
   specs:
     etcd-utils (0.1.0)
 

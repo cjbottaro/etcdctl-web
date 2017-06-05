@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def root_redirect
-    redirect_to keys_path
+    redirect_to keys_path, only_path: true
   end
 
   def key_path(key)

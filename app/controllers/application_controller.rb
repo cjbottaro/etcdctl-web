@@ -3,8 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  def default_url_options
+    { only_path: true }
+  end
+
   def root_redirect
-    redirect_to keys_path, only_path: true
+    redirect_to keys_path
   end
 
   def key_path(key)
